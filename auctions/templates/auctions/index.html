@@ -1,5 +1,18 @@
 {% extends "auctions/layout.html" %}
 
+<!-- Messages -->
+{% block message %}
+    {% if messages %}
+    <div class="col text-center py-1">
+        <div class="messages">
+            {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
 {% block body %}
     <h2>Active Listings</h2>
 

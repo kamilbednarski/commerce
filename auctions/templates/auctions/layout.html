@@ -4,37 +4,69 @@
 <html lang="en">
     <head>
         <title>{% block title %}Auctions{% endblock %}</title>
+
+        <!-- Bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <!-- Icon -->
+        <link href="/static/auctions/favicon.ico" rel="icon">
+
+        <!-- Font awesome -->
+        <script src="https://kit.fontawesome.com/45fc05582a.js" crossorigin="anonymous"></script>
+        
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+        
+        <!-- Static file connection -->
         <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
     </head>
     <body>
-        <h1>Auctions</h1>
-        <div>
-            {% if user.is_authenticated %}
-                Signed in as <strong>{{ user.username }}</strong>.
-            {% else %}
-                Not signed in.
-            {% endif %}
-        </div>
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
-            </li>
-            {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}">Register</a>
-                </li>
-            {% endif %}
-        </ul>
-        <hr>
-        {% block body %}
+        
+        <!-- Message bar -->
+        <div class="row">
+        {% block message %}
         {% endblock %}
+        </div>
+    
+        <nav class="navbar navbar-expand-lg navbar-dark px-5 nav-bar-styling">
+            <a class="navbar-brand logo pb-3 pr-5" href="#">auction</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item pr-3">
+                        <a class="nav-link" href="{% url 'index' %}">ACTIVE LISTINGS</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item pr-3">
+                            <a class="nav-link" href="{% url 'logout' %}">LOG OUT</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item pr-3">
+                            <a class="nav-link" href="{% url 'login' %}">LOG IN</a>
+                        </li>
+                        <li class="nav-item pr-3">
+                            <a class="nav-link" href="{% url 'register' %}">REGISTER</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <span class="navbar-text">
+                {% if user.is_authenticated %}
+                    Signed in as <strong>{{ user.username }}</strong>.
+                {% else %}
+                    Not signed in.
+                {% endif %}
+                </span>
+            </div>
+        </nav>
+        <div class="content-storage text-dark">
+            {% block body %}
+            {% endblock %}
+        </div>
     </body>
 </html>
