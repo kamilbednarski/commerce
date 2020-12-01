@@ -18,8 +18,11 @@ body {
 }
 
 .login-panel {
-    max-width: 500px;
+    padding: 5vw;
+    max-width: 600px;
     margin: auto;
+    background-color: #E4E8EA;
+    box-shadow: 0px 3px 15px #00000030 !important;
 }
 
 .logo {
@@ -28,7 +31,16 @@ body {
     font-size: 3rem;
 }
 
+.logo-letter {
+    transition: 0.2s ease-in-out;
+}
+
+.logo-letter:hover {
+    text-shadow: 0px 0px 15px #ffffff;
+}
+
 .nav-bar-styling {
+    z-index: 1 !important;
     background-color: #264653;
     box-shadow: 0px 3px 10px #00000070 !important;
     
@@ -44,13 +56,15 @@ body {
 }
 
 .button-custom {
-    background-color: #264653;
+    background-color: #264653 !important;
     border-radius: 0;
-    border: none;
     transition: text-shadow 0.2s ease-in-out;
+    border: none;
+    font-weight: 300;
 }
 
 .button-custom:hover {
+    background-color: #419281 !important;
     text-shadow: 0px 0px 15px #ffffff; 
 }
 

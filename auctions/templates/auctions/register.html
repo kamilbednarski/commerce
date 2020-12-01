@@ -15,7 +15,7 @@
 
 {% block body %}
 
-    <div class="login-panel">
+    <div class="login-panel animated slideInDown border mt-5">
         <h2 class="pb-3">Register new account</h2>
         <form action="{% url 'register' %}" method="post">
             {% csrf_token %}

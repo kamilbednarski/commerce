@@ -4,7 +4,8 @@
 <html lang="en">
     <head>
         <title>{% block title %}Auctions{% endblock %}</title>
-
+        <!-- Static file connection -->
+        <link href="{% static 'auctions/mdb.min.css' %}" rel="stylesheet">
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -21,7 +22,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
         
-        <!-- Static file connection -->
+        
         <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
     </head>
     <body>
@@ -33,29 +34,32 @@
         </div>
     
         <nav class="navbar navbar-expand-lg navbar-dark px-5 nav-bar-styling">
-            <a class="navbar-brand logo pb-3 pr-5" href="#">auction</a>
+            <a class="navbar-brand logo pb-3 pr-5 pl-3 animated fadeIn slower" href="#"><span class="logo-letter">a</span><span class="logo-letter">u</span><span class="logo-letter">c</span><span class="logo-letter">t</span><span class="logo-letter">i</span><span class="logo-letter">o</span><span class="logo-letter">n</span><span class="logo-letter">s</span></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item pr-3">
-                        <a class="nav-link" href="{% url 'index' %}">ACTIVE LISTINGS</a>
+                    <li class="nav-item px-3">
+                        <a class="nav-link animated fadeIn slower" href="{% url 'index' %}">BROWSE</a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link animated fadeIn slower" href="{% url 'index' %}">CATEGORIES</a>
                     </li>
                     {% if user.is_authenticated %}
-                        <li class="nav-item pr-3">
-                            <a class="nav-link" href="{% url 'logout' %}">LOG OUT</a>
+                        <li class="nav-item px-3">
+                            <a class="nav-link animated fadeIn slower" href="{% url 'logout' %}">LOG OUT</a>
                         </li>
                     {% else %}
-                        <li class="nav-item pr-3">
-                            <a class="nav-link" href="{% url 'login' %}">LOG IN</a>
+                        <li class="nav-item px-3">
+                            <a class="nav-link animated fadeIn slower" href="{% url 'login' %}">LOG IN</a>
                         </li>
-                        <li class="nav-item pr-3">
-                            <a class="nav-link" href="{% url 'register' %}">REGISTER</a>
+                        <li class="nav-item px-3">
+                            <a class="nav-link animated fadeIn slower" href="{% url 'register' %}">REGISTER</a>
                         </li>
                     {% endif %}
                 </ul>
-                <span class="navbar-text">
+                <span class="navbar-text pl-3 animated fadeIn slower">
                 {% if user.is_authenticated %}
                     Signed in as <strong>{{ user.username }}</strong>.
                 {% else %}
