@@ -1,0 +1,56 @@
+{% extends "auctions/layout.html" %}
+
+<!-- Messages -->
+{% block message %}
+    {% if messages %}
+    <div class="col text-center py-1 message-container">
+        <div class="messages">
+            {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="login-panel animated slideInDown border mt-5">
+        <h2>Edit profile</h2>
+        <hr>
+        <form action="{% url 'profile_edit' %}" method="POST">
+            {% csrf_token %}
+            <div class="pb-2">
+                <label class="form-input-label" for="firstNameInput">FIRST NAME</label>
+                <input autofocus class="form-control form-input-custom" type="text" id="firstNameInput" name="first_name" placeholder="First name">
+            </div>
+            <div class="pb-2">
+                <label class="form-input-label" for="lastNameInput">LAST NAME</label>
+                <input autofocus class="form-control form-input-custom" type="text" id="lastNameInput" name="last_name" placeholder="Last name">
+            </div>
+            <div class="pb-2">
+                <label class="form-input-label" for="houseInput">HOUSE</label>
+                <input autofocus class="form-control form-input-custom" type="text" id="houseInput" name="house" placeholder="House">
+            </div>
+            <div class="pb-2">
+                <label class="form-input-label" for="streetInput">STREET</label>
+                <input autofocus class="form-control form-input-custom" type="text" id="streetInput" name="street" placeholder="Street">
+            </div>
+            <div class="pb-2">
+                <label class="form-input-label" for="postcodeInput">POSTCODE</label>
+                <input autofocus class="form-control form-input-custom" type="text" id="postcodeInput" name="postcode" placeholder="Postcode">
+            </div>
+            <div class="pb-2">
+                <label class="form-input-label" for="cityInput">CITY</label>
+                <input autofocus class="form-control form-input-custom" type="text" id="cityInput" name="city" placeholder="City">
+            </div>
+            <div class="pb-2">
+                <label class="form-input-label" for="countryInput">COUNTRY</label>
+                <input autofocus class="form-control form-input-custom" type="text" id="countryInput" name="country" placeholder="Country">
+            </div>
+                        
+            <input class="btn btn-info button-custom" type="submit" value="Save changes">
+        </form>
+    </div>
+
+{% endblock %}

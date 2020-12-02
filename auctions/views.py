@@ -200,3 +200,54 @@ def change_password(request):
             return redirect('change_password')
     else:
         return render(request, "auctions/change_password.html")
+
+@login_required
+def profile_edit(request):
+    '''
+    Changes user data in User and Contact models.
+    '''
+    if request.method == 'POST':
+        # Checks if all form inputs were submited.
+        if request.POST["first_name"] or request.POST["last_name"] or request.POST["house"] or request.POST["street"] or request.POST["postcode"] or request.POST["city"] or request.POST["country"]:
+            logged_user = request.user
+            contact = Contact.objects.get(user_id=logged_user.id)
+            
+            # If first name was submitted.
+            if request.POST["first_name"]:
+                logged_user.first_name = request.POST["first_name"]
+                logged_user.save()
+            # If last name was submitted.
+            if request.POST["last_name"]:
+                logged_user.last_name = request.POST["last_name"]
+                logged_user.save()
+            # If house was submitted.
+            if request.POST["house"]:
+                contact.house = request.POST["house"]
+                contact.save()
+            # If street was submitted.
+            if request.POST["street"]:
+                contact.street = request.POST["street"]
+                contact.save()
+            # If postcode was submitted.
+            if request.POST["postcode"]:
+                contact.postcode = request.POST["postcode"]
+                contact.save()
+            # If city was submitted.
+            if request.POST["city"]:
+                contact.city = request.POST["city"]
+                contact.save()
+            # If country was submitted.
+            if request.POST["country"]:
+                contact.country = request.POST["country"]
+                contact.save()
+
+            messages.info(request, "Profile succesfully updated.")
+            return redirect('profile')
+        
+        else:
+            # If no field was changed, flashes message and redirects.
+            messages.info(request, "You must change at least one field.") 
+            return redirect('profile_edit')
+
+    else:
+        return render(request, "auctions/profile_edit.html")

@@ -59,7 +59,7 @@
             </div>
             <div class="col">
                 <!-- Country -->
-                <label class="form-input-label" for="userEmail">Country</label>
+                <label class="form-input-label" for="userEmail">COUNTRY</label>
                 <div id="userEmail"><h5>{{ country }}</h5></div>
             </div>
         </div>
@@ -75,7 +75,7 @@
         </div>
         <div class="row pb-3">
             <div class="col">
-                <input class="btn btn-secondary button-custom-secondary btn-block" type="submit" value="Edit profile">
+                <a href="{% url 'profile_edit' %}" role="button" class="btn btn-secondary button-custom-secondary btn-block">EDIT PROFILE</a>
             </div>
         </div>
         <div class="row pb-3">
