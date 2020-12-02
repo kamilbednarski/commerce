@@ -30,7 +30,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("profile"))
         else:
             return render(request, "auctions/login.html", {
                 "message": "Invalid username and/or password."
@@ -78,7 +78,7 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("profile"))
     else:
         return render(request, "auctions/register.html")
 
@@ -153,7 +153,50 @@ def change_email(request):
                 
         else:
             # If not all form inputs were submitted, flashes message and redirects.
-            messages.info(request, "You have to type new email, password and password confirmation.") 
+            messages.info(request, "You must fill in all the fields.") 
             return redirect('change_email')
     else:
         return render(request, "auctions/change_email.html")
+
+
+@login_required
+def change_password(request):
+    '''
+    Changes password in User model.
+    '''
+    if request.method == 'POST':
+
+        # Checks if all form inputs were submited.
+        if request.POST["new_password"] and request.POST["new_password_confirmation"] and request.POST["password"] and request.POST["password_confirmation"]:
+            new_password = request.POST["new_password"]
+            new_password_confirmation = request.POST["new_password_confirmation"]
+            password = request.POST["password"]
+            confirmation = request.POST["password_confirmation"]
+            
+            # Checks if password and confirmation are equal.
+            if password != confirmation or new_password != new_password_confirmation:
+                messages.info(request, "Password confirmation(s) do not match password.") 
+                return redirect('change_password')
+
+            logged_user = request.user
+
+            # Password authentication.
+            check_password = authenticate(request, username=logged_user.username, password=password)
+
+            if check_password is not None:
+                # Update and save email field for logged user.
+                logged_user.set_password(new_password)
+                logged_user.save()
+                messages.info(request, "Password succesfully updated. Log in using new password.")
+                return redirect('login')
+            else:
+                # If authentication failed, flashes message and redirects.
+                messages.info(request, "Password is uncorrect.") 
+                return redirect('change_password')
+                
+        else:
+            # If not all form inputs were submitted, flashes message and redirects.
+            messages.info(request, "You must fill in all the fields.") 
+            return redirect('change_password')
+    else:
+        return render(request, "auctions/change_password.html")
