@@ -1,0 +1,39 @@
+{% extends "auctions/layout.html" %}
+
+<!-- Messages -->
+{% block message %}
+    {% if messages %}
+    <div class="col text-center py-1">
+        <div class="messages">
+            {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="login-panel animated slideInDown border mt-5">
+        <h2>Change e-mail</h2>
+        <hr>
+        <form action="{% url 'change_email' %}" method="POST">
+            {% csrf_token %}
+            <div class="pb-2">
+                <label class="form-input-label" for="emailInput">NEW EMAIL</label>
+                <input autofocus class="form-control form-input-custom" type="text" id="emailInput" name="username" placeholder="New email">
+            </div>
+            <div class="pb-3">
+                <label class="form-input-label" for="passwordInput">PASSWORD</label>
+                <input class="form-control form-input-custom" type="password" id="passwordInput" name="password" placeholder="Password">
+            </div>
+            <div class="pb-3">
+                <label class="form-input-label" for="passwordConfirmationInput">CONFIRM PASSWORD</label>
+                <input class="form-control form-input-custom" type="password" id="passwordConfirmationInput" name="password" placeholder="Confirm password">
+            </div>
+            <input class="btn btn-info button-custom" type="submit" value="Change e-mail">
+        </form>
+    </div>
+
+{% endblock %}

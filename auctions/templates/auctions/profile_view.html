@@ -41,20 +41,24 @@
         <hr>
         <div class="row">
             <div class="col">
+                <!-- Address -->
                 <label class="form-input-label" for="userEmail">ADDRESS</label>
                 <div id="userEmail"><h5>{{ house }} {{ street }}</h5></div>
             </div>
             <div class="col">
+                <!-- Postcode -->
                 <label class="form-input-label" for="userEmail">POST CODE</label>
                 <div id="userEmail"><h5>{{ postcode }}</h5></div>
             </div>
         </div>
         <div class="row">
             <div class="col">
+                <!-- City -->
                 <label class="form-input-label" for="userEmail">CITY</label>
                 <div id="userEmail"><h5>{{ city }}</h5></div>
             </div>
             <div class="col">
+                <!-- Country -->
                 <label class="form-input-label" for="userEmail">Country</label>
                 <div id="userEmail"><h5>{{ country }}</h5></div>
             </div>
@@ -76,7 +80,7 @@
         </div>
         <div class="row pb-3">
             <div class="col">
-                <input class="btn btn-secondary button-custom-secondary btn-block" type="submit" value="Change e-mail">
+                <a href="{% url 'change_email' %}" role="button" class="btn btn-secondary button-custom-secondary btn-block">CHANGE E-MAIL</a>
             </div>
         </div>
         <div class="row pb-3">

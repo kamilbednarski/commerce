@@ -97,3 +97,11 @@ def profile_view(request):
         "city": city,
         "country": country
     })
+
+
+@login_required
+def change_email(request):
+    if request.method == 'POST':
+        return render(request, "auctions/change_email.html")
+    else:
+        return render(request, "auctions/change_email.html")
