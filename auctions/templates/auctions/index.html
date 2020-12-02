@@ -3,7 +3,7 @@
 <!-- Messages -->
 {% block message %}
     {% if messages %}
-    <div class="col text-center py-1">
+    <div class="col text-center py-1 message-container">
         <div class="messages">
             {% for message in messages %}
             <div {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>

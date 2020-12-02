@@ -103,3 +103,8 @@ body {
     color: lightgray !important;
     font-weight: 300;
 }
+
+.message-container {
+    z-index: 1;
+    background-color: #81b29a;
+}
