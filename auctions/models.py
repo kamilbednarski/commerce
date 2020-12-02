@@ -13,17 +13,17 @@ class Contact(models.Model):
     Contains full name, email, house nr,
     street, postcode, city and country.
     '''
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    house = models.CharField(max_length=64)
-    street = models.CharField(max_length=64)
-    postcode = models.CharField(max_length=5)
-    city = models.CharField(max_length=30)
-    country = models.CharField(max_length=30)
+    house = models.CharField(max_length=64, blank=True, null=True)
+    street = models.CharField(max_length=64, blank=True, null=True)
+    postcode = models.CharField(max_length=5, blank=True, null=True)
+    city = models.CharField(max_length=30, blank=True, null=True)
+    country = models.CharField(max_length=30, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    info = f'Contact card for user:{user}'
+
     def __str__(self):
-        return self.user
+        return self.info
 
 class Category(models.Model):
     '''

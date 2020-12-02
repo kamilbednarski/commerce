@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from .models import Bid, Category, Contact, Comment, Listing, User
 
@@ -31,6 +32,7 @@ def login_view(request):
         return render(request, "auctions/login.html")
 
 
+@login_required
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
@@ -57,6 +59,7 @@ def register(request):
             user.first_name = first_name
             user.last_name = last_name
             user.save()
+            Contact.objects.create(user_id=user.id)
         except IntegrityError:
             return render(request, "auctions/register.html", {
                 "message": "Username already taken."
@@ -65,3 +68,32 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
+
+@login_required
+def profile_view(request):
+    logged_user = request.user
+    id = logged_user.id
+    username = logged_user.username
+    first_name = logged_user.first_name
+    last_name = logged_user.last_name
+    email = logged_user.email
+    
+    contact = Contact.objects.get(user_id=id)
+    house = contact.house
+    street = contact.street
+    post_code = contact.postcode
+    city = contact.city
+    country = contact.country
+
+    return render(request, "auctions/profile_view.html", {
+        "username": username,
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": email,
+        "house": house,
+        "street": street,
+        "postcode": post_code,
+        "city": city,
+        "country": country
+    })

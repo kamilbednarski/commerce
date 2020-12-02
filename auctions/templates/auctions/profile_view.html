@@ -1,0 +1,89 @@
+{% extends "auctions/layout.html" %}
+
+<!-- Messages -->
+{% block message %}
+    {% if messages %}
+    <div class="col text-center py-1">
+        <div class="messages">
+            {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <!-- Profile panel -->
+    <div class="login-panel animated slideInDown border mt-5">
+        <!-- Personal info -->
+        <div><h2>Profile</h2></div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <label class="form-input-label" for="userFullName">FULL NAME</label>
+                <div id="userFullName"><h5>{{ first_name }} {{ last_name }}</h5></div>
+            </div>
+            <div class="col">
+                <label class="form-input-label" for="userFullName">USERNAME</label>
+                <div id="userFullName"><h5>{{ username }}</h5></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="form-input-label" for="userEmail">E-MAIL</label>
+                <div id="userEmail"><h5>{{ email }}</h5></div>
+            </div>
+        </div>
+        {% if house != None and street != None and postcode != None and city != None and country != None %}
+        <!-- Contact info -->
+        <div class="pt-4"><h3>Contact info</h3></div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <label class="form-input-label" for="userEmail">ADDRESS</label>
+                <div id="userEmail"><h5>{{ house }} {{ street }}</h5></div>
+            </div>
+            <div class="col">
+                <label class="form-input-label" for="userEmail">POST CODE</label>
+                <div id="userEmail"><h5>{{ postcode }}</h5></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="form-input-label" for="userEmail">CITY</label>
+                <div id="userEmail"><h5>{{ city }}</h5></div>
+            </div>
+            <div class="col">
+                <label class="form-input-label" for="userEmail">Country</label>
+                <div id="userEmail"><h5>{{ country }}</h5></div>
+            </div>
+        </div>
+        {% endif %}
+
+
+
+        <hr>
+        <div class="row pb-3">
+            <div class="col">
+                <input class="btn btn-secondary button-custom-secondary btn-block" type="submit" value="My listings">
+            </div>
+        </div>
+        <div class="row pb-3">
+            <div class="col">
+                <input class="btn btn-secondary button-custom-secondary btn-block" type="submit" value="Edit profile">
+            </div>
+        </div>
+        <div class="row pb-3">
+            <div class="col">
+                <input class="btn btn-secondary button-custom-secondary btn-block" type="submit" value="Change e-mail">
+            </div>
+        </div>
+        <div class="row pb-3">
+            <div class="col">
+                <input class="btn btn-secondary button-custom-secondary btn-block" type="submit" value="Change password">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

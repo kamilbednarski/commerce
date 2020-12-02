@@ -4,7 +4,7 @@
 <html lang="en">
     <head>
         <title>{% block title %}Auctions{% endblock %}</title>
-        <!-- Static file connection -->
+        <!-- MDBootstrap -->
         <link href="{% static 'auctions/mdb.min.css' %}" rel="stylesheet">
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -22,7 +22,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
         
-        
+        <!-- Static files -->
         <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
     </head>
     <body>
@@ -48,7 +48,10 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item px-3">
-                            <a class="nav-link animated fadeIn slower" href="{% url 'logout' %}">LOG OUT</a>
+                            <a class="nav-link animated fadeIn slower" href="{% url 'profile' %}">PROFILE</a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="nav-link animated fadeIn slower" href="{% url 'logout' %}">LOGOUT</a>
                         </li>
                     {% else %}
                         <li class="nav-item px-3">
