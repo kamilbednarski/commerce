@@ -18,7 +18,7 @@ body {
 }
 
 .login-panel {
-    padding: 5vw;
+    padding: 4vw 5vw 5vw 5vw;
     max-width: 600px;
     margin: auto;
     background-color: #E4E8EA;
@@ -70,6 +70,11 @@ body {
 
 .form-input-custom {
     border-radius: 0;
+}
+
+.form-input-label {
+    font-weight: 400;
+    font-size: 0.7rem;
 }
 
 ::placeholder {

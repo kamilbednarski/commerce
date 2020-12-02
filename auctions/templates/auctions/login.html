@@ -19,11 +19,13 @@
         <h2 class="pb-3">Sing In</h2>
         <form action="{% url 'login' %}" method="POST">
             {% csrf_token %}
-            <div class="form-group pb-3">
-                <input autofocus class="form-control form-input-custom" type="text" name="username" placeholder="Username">
+            <div class="pb-2">
+                <label class="form-input-label" for="usernameInput">USERNAME</label>
+                <input autofocus class="form-control form-input-custom" type="text" id="usernameInput" name="username" placeholder="Username">
             </div>
-            <div class="form-group pb-3">
-                <input class="form-control form-input-custom" type="password" name="password" placeholder="Password">
+            <div class="pb-3">
+                <label class="form-input-label" for="passwordInput">PASSWORD</label>
+                <input class="form-control form-input-custom" type="password" id="passwordInput" name="password" placeholder="Password">
             </div>
             <input class="btn btn-info button-custom" type="submit" value="Sign In">
         </form>

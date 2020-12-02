@@ -15,7 +15,6 @@ class Contact(models.Model):
     '''
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    email = models.EmailField()
     house = models.CharField(max_length=64)
     street = models.CharField(max_length=64)
     postcode = models.CharField(max_length=5)

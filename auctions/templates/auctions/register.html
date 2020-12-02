@@ -19,17 +19,31 @@
         <h2 class="pb-3">Register new account</h2>
         <form action="{% url 'register' %}" method="post">
             {% csrf_token %}
-            <div class="form-group pb-3">
-                <input class="form-control form-input-custom" autofocus type="text" name="username" placeholder="Username">
+            <div class="form-row pb-2">
+                <div class="col-5">
+                    <label class="form-input-label" for="firstNameInput">FIRST NAME</label>
+                    <input autofocus class="form-control form-input-custom" type="text" id="firstNameInput" name="firstname" placeholder="First name" required>
+                </div>
+                <div class="col-7">
+                    <label class="form-input-label" or="lastNameInput">LAST NAME</label>
+                    <input autofocus class="form-control form-input-custom" type="text" id="lastNameInput" name="lastname" placeholder="Last name" required>
+                </div>
             </div>
-            <div class="form-group pb-3">
-                <input class="form-control form-input-custom" type="email" name="email" placeholder="Email Address">
+            <div class="pb-2">
+                <label class="form-input-label" for="usernameInput">USERNAME</label>
+                <input class="form-control form-input-custom" autofocus type="text" id="usernameInput" name="username" placeholder="Username" required>
             </div>
-            <div class="form-group pb-3">
-                <input class="form-control form-input-custom" type="password" name="password" placeholder="Password">
+            <div class="pb-2">
+                <label class="form-input-label" for="emailInput">E-MAIL ADDRESS</label>
+                <input class="form-control form-input-custom" type="email" id="emailInput" name="email" placeholder="Email Address" required>
             </div>
-            <div class="form-group pb-3">
-                <input class="form-control form-input-custom" type="password" name="confirmation" placeholder="Confirm Password">
+            <div class="pb-2">
+                <label class="form-input-label" for="usernameInput">PASSWORD</label>
+                <input class="form-control form-input-custom" type="password" id="passwordInput" name="password" placeholder="Password" required>
+            </div>
+            <div class="pb-3">
+                <label class="form-input-label" for="passwordConfirmationInput">CONFIRM PASSWORD</label>
+                <input class="form-control form-input-custom" type="password" id="passwordConfirmationInput" name="confirmation" placeholder="Confirm Password" required>
             </div>
             <input class="btn btn-info button-custom" type="submit" value="Register">
         </form>

@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import Bid, Category, Contact, Comment, Listing, User
 
 
 def index(request):
@@ -40,6 +40,8 @@ def register(request):
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
+        first_name = request.POST["firstname"]
+        last_name = request.POST["lastname"]
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -52,6 +54,8 @@ def register(request):
         # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
+            user.first_name = first_name
+            user.last_name = last_name
             user.save()
         except IntegrityError:
             return render(request, "auctions/register.html", {
