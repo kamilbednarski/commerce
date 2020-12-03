@@ -18,20 +18,43 @@
     <div class="login-panel animated slideInDown border mt-5">
         <h2>Add new listing</h2>
         <hr>
-        <form action="{% url 'change_password' %}" method="POST">
+        <form action="{% url 'add_listing' %}" method="POST">
             {% csrf_token %}
+            <!-- Title -->
             <div class="pb-3">
                 <label class="form-input-label" for="titleInput">TITLE</label>
-                <input class="form-control form-input-custom" type="password" id="titleInput" name="title" placeholder="Title">
+                <input class="form-control form-input-custom" type="text" id="titleInput" name="title" placeholder="Title" required>
             </div>
-            <div class="pb-3">
-                <label class="form-input-label" for="startingPriceInput">STARTING PRICE</label>
-                <input class="form-control form-input-custom" type="text" id="startingPriceInput" name="price" placeholder="Starting price">
+
+            <!-- Price and category -->
+            <div class="form-row pb-3">
+                <!-- Price -->
+                <div class="col-4">
+                    <label class="form-input-label" for="startingPriceInput">STARTING PRICE</label>
+                    <input class="form-control form-input-custom" type="text" id="startingPriceInput" name="price" placeholder="Starting price" required>
+                </div>
+                <!-- Category -->
+                <div class="col-8">
+                    <div class="form-group">
+                        <label class="form-input-label" for="categoryInput">CATEGORY</label>
+                        <select name="category" class="browser-default custom-select" style="border-radius: 0;" id="categoryInput" required>
+                            <option value="" disabled>Choose category...</option>
+                            {% for category in categories %}
+                            <option name="category" value={{ category }}>{{ category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="pb-3">
-                <label class="form-input-label" for="categoryInput">CATEGORY</label>
-                <input class="form-control form-input-custom" type="text" id="categoryInput" name="category" placeholder="Category">
+
+            <!-- Description -->
+            <div class="row pb-3">
+                <div class="col">
+                    <label class="form-input-label" for="descriptionInput">DESCRIPTION</label>
+                    <textarea name="description" rows="5" style="resize: none; border-radius: 0;" class="form-control" id="descriptionInput" placeholder="Item description" required></textarea>         
+                </div>
             </div>
+            <!-- Submit -->
             <input class="btn btn-info button-custom" type="submit" value="Add listing">
         </form>
     </div>

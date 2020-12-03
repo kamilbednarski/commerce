@@ -45,14 +45,13 @@ class Listing(models.Model):
     '''
     title = models.CharField(max_length=40)
     description = models.CharField(max_length=500)
-    date_added = models.DateTimeField(default=timezone.now)
     starting_price = models.FloatField()
-    active = models.BooleanField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(default=timezone.now)
+    active = models.BooleanField(default=True)
 
-    def __str__(self):
-        return self.title
+    
 
 
 class Comment(models.Model):

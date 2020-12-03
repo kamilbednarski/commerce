@@ -207,7 +207,7 @@ def profile_edit(request):
     Changes user data in User and Contact models.
     '''
     if request.method == 'POST':
-        # Checks if all form inputs were submited.
+        # Checks if form inputs were submited.
         if request.POST["first_name"] or request.POST["last_name"] or request.POST["house"] or request.POST["street"] or request.POST["postcode"] or request.POST["city"] or request.POST["country"]:
             logged_user = request.user
             contact = Contact.objects.get(user_id=logged_user.id)
@@ -253,13 +253,60 @@ def profile_edit(request):
         return render(request, "auctions/profile_edit.html")
 
 
+@login_required
+def add_listing(request):
+    '''
+    Allows logged user to add new listing.
+    '''
+    if request.method == 'POST':
+        # Checks if all form inputs were submited.
+        if request.POST["title"] and request.POST["description"] and request.POST["price"] and request.POST["category"]:
+            logged_user = request.user
+
+            title = request.POST["title"]
+            description = request.POST["description"]
+            starting_price = float(request.POST["price"])
+            user_id = logged_user.id
+            category = Category.objects.get(name=request.POST["category"])
+            category_id = category.id
+
+            # Creates new Listing instance
+            new_listing = Listing(title=title, description=description, starting_price=starting_price, user_id=user_id, category_id=category_id)
+            new_listing.save()
+
+            return redirect('index')
+
+        else:
+            messages.info(request, "You must fill all fields.") 
+            return redirect('add_listing')
+
+    else:
+        categories = Category.objects.all().order_by('name')
+
+        return render(request, "auctions/add_listing.html", {
+            "categories": categories
+        })
+
+
 def categories_view(request):
     '''
     Renders page with all avaiable categories.
     '''
     categories = Category.objects.all().order_by('name')
-    print(f"#####{categories}")
 
     return render(request, "auctions/categories.html", {
+        "categories": categories
+    })
+
+
+def browse_listing(request):
+    '''
+    Renders page with all active listings.
+    '''
+    listings = Listing.objects.all().order_by('-date_added')
+    categories = Category.objects.all().order_by('name')
+
+    return render(request, "auctions/browse_listing.html", {
+        "listings": listings,
         "categories": categories
     })

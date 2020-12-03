@@ -33,6 +33,14 @@ body {
     box-shadow: 0px 3px 15px #00000030 !important;
 }
 
+.listings-panel {
+    padding: 4vw 5vw 5vw 5vw;
+    max-width: 1000px;
+    margin: auto;
+    background-color: #E4E8EA;
+    box-shadow: 0px 3px 15px #00000030 !important;
+}
+
 .logo {
     font-family: 'Lobster', cursive;
     color: #F2F4F5 !important;
@@ -97,6 +105,10 @@ body {
 .form-input-label {
     font-weight: 400;
     font-size: 0.7rem;
+}
+
+.sharp-border {
+    border-radius: 0;
 }
 
 ::placeholder {

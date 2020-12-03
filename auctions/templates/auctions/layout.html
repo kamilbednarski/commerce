@@ -41,12 +41,15 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item px-3">
-                        <a class="nav-link animated fadeIn slower" href="{% url 'index' %}">BROWSE</a>
+                        <a class="nav-link animated fadeIn slower" href="{% url 'browse_listing' %}">BROWSE</a>
                     </li>
                     <li class="nav-item px-3">
                         <a class="nav-link animated fadeIn slower" href="{% url 'categories_view' %}">CATEGORIES</a>
                     </li>
                     {% if user.is_authenticated %}
+                        <li class="nav-item px-3">
+                            <a class="nav-link animated fadeIn slower" href="{% url 'add_listing' %}">ADD</a>
+                        </li>
                         <li class="nav-item px-3">
                             <a class="nav-link animated fadeIn slower" href="{% url 'profile' %}">PROFILE</a>
                         </li>
