@@ -17,7 +17,7 @@
     <!-- Profile panel -->
     <div class="listings-panel animated slideInDown border mt-5">
         <!-- Personal info -->
-        <div><h2>All listings</h2></div>
+        <div><h2>{{ category | title }} listings</h2></div>
         <hr>
 
         {% for listing in listings %}
@@ -27,9 +27,12 @@
                     <div class="row">
                         <div class="col">
                             <h4 class="card-title">{{ listing.title }}</h4>
-                            <hr>
+                        </div>
+                        <div class="col-2">
+                            <a href="{% url 'change_password' %}" role="button" class="btn btn-info button-custom btn-block">VIEW</a>
                         </div>
                     </div>
+                    <hr>
                     <div class="row">
                         <div class="col">
                             <label class="form-input-label" for="startingPriceOutput">STARTING PRICE</label>

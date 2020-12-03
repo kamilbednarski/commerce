@@ -299,14 +299,29 @@ def categories_view(request):
     })
 
 
-def browse_listing(request):
+def browse_listings(request):
     '''
     Renders page with all active listings.
     '''
     listings = Listing.objects.all().order_by('-date_added')
     categories = Category.objects.all().order_by('name')
 
-    return render(request, "auctions/browse_listing.html", {
+    return render(request, "auctions/browse_listings.html", {
+        "listings": listings,
+        "categories": categories
+    })
+
+def listings_view(request):
+    '''
+    Renders page with all active listings created by logged user.
+    '''
+    logged_user = request.user
+    user_id = logged_user.id
+
+    listings = Listing.objects.filter(user_id=user_id).order_by('-date_added')
+    categories = Category.objects.all().order_by('name')
+
+    return render(request, "auctions/listings_view.html", {
         "listings": listings,
         "categories": categories
     })

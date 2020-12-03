@@ -1,0 +1,72 @@
+{% extends "auctions/layout.html" %}
+
+<!-- Messages -->
+{% block message %}
+    {% if messages %}
+    <div class="col text-center py-1 message-container">
+        <div class="messages">
+            {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <!-- Profile panel -->
+    <div class="listings-panel animated slideInDown border mt-5">
+        <!-- Personal info -->
+        <div><h2>My listings</h2></div>
+        <hr>
+
+        {% for listing in listings %}
+        <div class="pb-3">
+            <div class="card" style="border-radius: 0; background-color: #E4E8EA;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="card-title">{{ listing.title }}</h4>
+                        </div>
+                        <div class="col-2">
+                            <a href="{% url 'change_password' %}" role="button" class="btn btn-info button-custom btn-block">EDIT</a>
+                        </div>
+                        <div class="col-2">
+                            <a href="{% url 'change_password' %}" role="button" class="btn btn-info button-custom btn-block">DELETE</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-input-label" for="startingPriceOutput">STARTING PRICE</label>
+                            <div id="startingPriceOutput">
+                                <h5>${{ listing.starting_price }}0</h5>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label class="form-input-label" for="categoryOutput">CATEGORY</label>
+                            <div id="categoryOutput">
+                                <h5>
+                                {% for category in categories %}
+                                    {% if category.id == listing.category_id %}
+                                        {{category.name}}
+                                    {% endif %}
+                                {% endfor %}
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <small>ADDED: {{ listing.date_added }}</small>
+                        </div>
+                    </div>
+                </div>       
+            </div>
+        </div>
+        
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
