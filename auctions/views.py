@@ -311,6 +311,26 @@ def browse_listings(request):
         "categories": categories
     })
 
+def browse_listings_category(request):
+    '''
+    Renders page with all active listings matching selected category.
+    '''
+    if request.method == 'POST':
+        # TODO check if int() function necessary
+        category_id = int(request.POST['category_id'])
+        category = Category.objects.get(id=category_id)
+
+        listings = Listing.objects.filter(category_id=category_id).order_by('-date_added')
+
+
+        return render(request, "auctions/browse_listings_category.html", {
+            "listings": listings,
+            "category": category
+        })
+
+    else:
+        return redirect('categories_view')
+
 def listings_view(request):
     '''
     Renders page with all active listings created by logged user.

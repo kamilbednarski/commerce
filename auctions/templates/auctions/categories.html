@@ -22,7 +22,11 @@
         {% for category in categories %}
         <div class="row pb-3">
             <div class="col">
-                <a href="{% url 'categories_view' %}" role="button" class="btn btn-secondary button-custom-secondary btn-block" style="font-size: 1.5rem;">{{ category }}</a>
+                <form action="{% url 'browse_listings_category' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="category_id" value={{ category.id }} hidden>
+                    <button type="submit" class="btn btn-secondary button-custom-secondary btn-block" style="font-size: 1.5rem;">{{ category }}</button>
+                </form>
             </div>
         </div>
         {% endfor %}
