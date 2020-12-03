@@ -311,6 +311,7 @@ def browse_listings(request):
         "categories": categories
     })
 
+
 def browse_listings_category(request):
     '''
     Renders page with all active listings matching selected category.
@@ -331,6 +332,7 @@ def browse_listings_category(request):
     else:
         return redirect('categories_view')
 
+@login_required
 def listings_view(request):
     '''
     Renders page with all active listings created by logged user.
