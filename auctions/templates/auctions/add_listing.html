@@ -1,0 +1,39 @@
+{% extends "auctions/layout.html" %}
+
+<!-- Messages -->
+{% block message %}
+    {% if messages %}
+    <div class="col text-center py-1 message-container">
+        <div class="messages">
+            {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="login-panel animated slideInDown border mt-5">
+        <h2>Add new listing</h2>
+        <hr>
+        <form action="{% url 'change_password' %}" method="POST">
+            {% csrf_token %}
+            <div class="pb-3">
+                <label class="form-input-label" for="titleInput">TITLE</label>
+                <input class="form-control form-input-custom" type="password" id="titleInput" name="title" placeholder="Title">
+            </div>
+            <div class="pb-3">
+                <label class="form-input-label" for="startingPriceInput">STARTING PRICE</label>
+                <input class="form-control form-input-custom" type="text" id="startingPriceInput" name="price" placeholder="Starting price">
+            </div>
+            <div class="pb-3">
+                <label class="form-input-label" for="categoryInput">CATEGORY</label>
+                <input class="form-control form-input-custom" type="text" id="categoryInput" name="category" placeholder="Category">
+            </div>
+            <input class="btn btn-info button-custom" type="submit" value="Add listing">
+        </form>
+    </div>
+
+{% endblock %}

@@ -251,3 +251,15 @@ def profile_edit(request):
 
     else:
         return render(request, "auctions/profile_edit.html")
+
+
+def categories_view(request):
+    '''
+    Renders page with all avaiable categories.
+    '''
+    categories = Category.objects.all().order_by('name')
+    print(f"#####{categories}")
+
+    return render(request, "auctions/categories.html", {
+        "categories": categories
+    })

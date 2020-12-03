@@ -35,33 +35,41 @@
                 <div id="userEmail"><h5>{{ email }}</h5></div>
             </div>
         </div>
-        {% if house != None and street != None and postcode != None and city != None and country != None %}
+        {% if house != None or street != None or postcode != None or city != None or country != None %}
         <!-- Contact info -->
         <div class="pt-4"><h3>Contact info</h3></div>
         <hr>
         <div class="row">
+            {% if house != None or street != None %}
             <div class="col">
                 <!-- Address -->
                 <label class="form-input-label" for="userEmail">ADDRESS</label>
                 <div id="userEmail"><h5>{{ house }} {{ street }}</h5></div>
             </div>
+            {% endif %}
+            {% if postcode != None %}
             <div class="col">
                 <!-- Postcode -->
                 <label class="form-input-label" for="userEmail">POST CODE</label>
                 <div id="userEmail"><h5>{{ postcode }}</h5></div>
             </div>
+            {% endif %}
         </div>
         <div class="row">
+            {% if city != None %}
             <div class="col">
                 <!-- City -->
                 <label class="form-input-label" for="userEmail">CITY</label>
                 <div id="userEmail"><h5>{{ city }}</h5></div>
             </div>
+            {% endif %}
+            {% if country != None %}
             <div class="col">
                 <!-- Country -->
                 <label class="form-input-label" for="userEmail">COUNTRY</label>
                 <div id="userEmail"><h5>{{ country }}</h5></div>
             </div>
+            {% endif %}
         </div>
         {% endif %}
 
