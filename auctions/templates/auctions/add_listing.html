@@ -40,7 +40,7 @@
                         <select name="category" class="browser-default custom-select" style="border-radius: 0;" id="categoryInput" required>
                             <option value="" disabled>Choose category...</option>
                             {% for category in categories %}
-                            <option name="category" value={{ category }}>{{ category }}</option>
+                            <option name="category" value={{ category.id }}>{{ category }}</option>
                             {% endfor %}
                         </select>
                     </div>

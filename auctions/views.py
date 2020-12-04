@@ -329,15 +329,27 @@ def add_listing(request):
             description = request.POST["description"]
             starting_price = float(request.POST["price"])
             user_id = logged_user.id
-            # Gets category from Category object.
-            category = Category.objects.get(name=request.POST["category"])
-            category_id = category.id
 
-            # Creates new Listing instance.
-            new_listing = Listing(title=title, description=description, starting_price=starting_price, user_id=user_id, category_id=category_id)
-            new_listing.save()
+            # Gets category id from Category object.
+            post_category = request.POST["category"]
 
-            return redirect('index')
+            # Get category with id equal to id from POST method.
+            category = Category.objects.get(id=post_category)
+
+            # Checks if category is correct.
+            if category:
+                category_id = category.id
+
+                # Creates new Listing instance.
+                new_listing = Listing(title=title, description=description, starting_price=starting_price, user_id=user_id, category_id=category_id)
+                new_listing.save()
+
+                return redirect('browse_listings')
+            
+            else:
+                # If category not valid, redirect.
+                messages.info(request,"Such listing category does not exist.")
+                return redirect('add_listing')
 
         else:
             # If not, redirect and flash message.
@@ -345,6 +357,7 @@ def add_listing(request):
             return redirect('add_listing')
 
     else:
+        # Renders page with form.
         categories = Category.objects.all().order_by('name')
 
         return render(request, "auctions/add_listing.html", {
@@ -368,3 +381,23 @@ def listings_view(request):
         "listings": listings,
         "categories": categories
     })
+
+
+@login_required
+def listing_delete(request):
+    '''
+    Allows logged user to delete listings which user created.
+    '''
+    if request.method == 'POST':
+        logged_user = request.user
+        user_id = logged_user.id
+
+        listing_id = request.POST['listing_id']
+        listing = Listing.objects.get(id=listing_id)
+
+        if listing.user_id == user_id:
+            listing.delete()
+        return redirect('listings_view')
+
+    else:
+        return redirect('listings_view')
