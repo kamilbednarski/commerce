@@ -29,7 +29,7 @@
                             <h4 class="card-title">{{ listing.title }}</h4>
                         </div>
                         <div class="col-2">
-                            <a href="{% url 'change_password' %}" role="button" class="btn btn-info button-custom btn-block">VIEW</a>
+                            <a href="{% url 'single_listing_view' listing.id %}" role="button" class="btn btn-info button-custom btn-block">VIEW</a>
                         </div>
                     </div>
                     <hr>

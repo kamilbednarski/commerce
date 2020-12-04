@@ -16,36 +16,50 @@ def index(request):
     return render(request, "auctions/index.html")
 
 
-def login_view(request):
+def categories_view(request):
     '''
-    Logs user in.
+    Renders page with all avaiable categories.
     '''
-    if request.method == "POST":
+    # Gets all Category objects.
+    categories = Category.objects.all().order_by('name')
 
-        # Attempt to sign user in
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+    return render(request, "auctions/categories.html", {
+        "categories": categories
+    })
 
-        # Check if authentication successful
-        if user is not None:
-            login(request, user)
-            return HttpResponseRedirect(reverse("profile"))
-        else:
-            return render(request, "auctions/login.html", {
-                "message": "Invalid username and/or password."
-            })
+
+def browse_listings(request):
+    '''
+    Renders page with all active listings.
+    '''
+    listings = Listing.objects.all().order_by('-date_added')
+    categories = Category.objects.all().order_by('name')
+
+    return render(request, "auctions/browse_listings.html", {
+        "listings": listings,
+        "categories": categories
+    })
+
+
+def browse_listings_category(request):
+    '''
+    Renders page with all active listings matching selected category.
+    '''
+    if request.method == 'POST':
+        # TODO check if int() function necessary
+        category_id = int(request.POST['category_id'])
+        category = Category.objects.get(id=category_id)
+
+        # Gets listings from Listing objects with matching category_id.
+        listings = Listing.objects.filter(category_id=category_id).order_by('-date_added')
+
+        return render(request, "auctions/browse_listings_category.html", {
+            "listings": listings,
+            "category": category
+        })
+
     else:
-        return render(request, "auctions/login.html")
-
-
-@login_required
-def logout_view(request):
-    '''
-    Logs user out.
-    '''
-    logout(request)
-    return HttpResponseRedirect(reverse("index"))
+        return redirect('categories_view')
 
 
 def register(request):
@@ -81,6 +95,53 @@ def register(request):
         return HttpResponseRedirect(reverse("profile"))
     else:
         return render(request, "auctions/register.html")
+
+
+def login_view(request):
+    '''
+    Logs user in.
+    '''
+    if request.method == "POST":
+
+        # Attempt to sign user in
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+
+        # Check if authentication successful
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse("profile"))
+        else:
+            return render(request, "auctions/login.html", {
+                "message": "Invalid username and/or password."
+            })
+    else:
+        return render(request, "auctions/login.html")
+
+
+def single_listing_view(request, id):
+    '''
+    Renders page for single listing.
+    '''
+    listing = Listing.objects.get(id=id)
+    return render(request, "auctions/listing_single_view.html", {
+        "listing": listing
+    })
+
+
+'''
+USER SPECIFIC, LOGIN REQUIRED FUNCTIONALITY
+'''
+
+
+@login_required
+def logout_view(request):
+    '''
+    Logs user out.
+    '''
+    logout(request)
+    return HttpResponseRedirect(reverse("index"))
 
 
 @login_required
@@ -263,20 +324,23 @@ def add_listing(request):
         if request.POST["title"] and request.POST["description"] and request.POST["price"] and request.POST["category"]:
             logged_user = request.user
 
+            # Saves data about new listing provided in html form.
             title = request.POST["title"]
             description = request.POST["description"]
             starting_price = float(request.POST["price"])
             user_id = logged_user.id
+            # Gets category from Category object.
             category = Category.objects.get(name=request.POST["category"])
             category_id = category.id
 
-            # Creates new Listing instance
+            # Creates new Listing instance.
             new_listing = Listing(title=title, description=description, starting_price=starting_price, user_id=user_id, category_id=category_id)
             new_listing.save()
 
             return redirect('index')
 
         else:
+            # If not, redirect and flash message.
             messages.info(request, "You must fill all fields.") 
             return redirect('add_listing')
 
@@ -288,50 +352,6 @@ def add_listing(request):
         })
 
 
-def categories_view(request):
-    '''
-    Renders page with all avaiable categories.
-    '''
-    categories = Category.objects.all().order_by('name')
-
-    return render(request, "auctions/categories.html", {
-        "categories": categories
-    })
-
-
-def browse_listings(request):
-    '''
-    Renders page with all active listings.
-    '''
-    listings = Listing.objects.all().order_by('-date_added')
-    categories = Category.objects.all().order_by('name')
-
-    return render(request, "auctions/browse_listings.html", {
-        "listings": listings,
-        "categories": categories
-    })
-
-
-def browse_listings_category(request):
-    '''
-    Renders page with all active listings matching selected category.
-    '''
-    if request.method == 'POST':
-        # TODO check if int() function necessary
-        category_id = int(request.POST['category_id'])
-        category = Category.objects.get(id=category_id)
-
-        listings = Listing.objects.filter(category_id=category_id).order_by('-date_added')
-
-
-        return render(request, "auctions/browse_listings_category.html", {
-            "listings": listings,
-            "category": category
-        })
-
-    else:
-        return redirect('categories_view')
-
 @login_required
 def listings_view(request):
     '''
@@ -340,6 +360,7 @@ def listings_view(request):
     logged_user = request.user
     user_id = logged_user.id
 
+    # Gets listings from Listing objects with matching user_id.
     listings = Listing.objects.filter(user_id=user_id).order_by('-date_added')
     categories = Category.objects.all().order_by('name')
 

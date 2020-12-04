@@ -20,8 +20,8 @@ class Contact(models.Model):
     country = models.CharField(max_length=30, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    info = f'Contact card for user:{user}'
-
+    info = f'Contact card id: {id}'
+    
     def __str__(self):
         return self.info
 
@@ -46,12 +46,14 @@ class Listing(models.Model):
     title = models.CharField(max_length=40)
     description = models.CharField(max_length=500)
     starting_price = models.FloatField()
+    # Connection with User
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     date_added = models.DateTimeField(default=timezone.now)
     active = models.BooleanField(default=True)
 
-    
+    def __str__(self):
+        return self.title
 
 
 class Comment(models.Model):
@@ -64,7 +66,9 @@ class Comment(models.Model):
     '''
     date_added = models.DateTimeField(default=timezone.now)
     content = models.CharField(max_length=140)
+    # Connection with Listing
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    # Connection with User
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -77,7 +81,9 @@ class Bid(models.Model):
     Contains bid offered and listing ID. 
     '''
     value = models.FloatField()
+    # Connection with User
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # Connection with Listing
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
 
     def __str__(self):
