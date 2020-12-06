@@ -392,6 +392,8 @@ def listing_delete(request):
         logged_user = request.user
         user_id = logged_user.id
 
+        # Gets listing id from POST method
+        # and searches for Listing object with that id
         listing_id = request.POST['listing_id']
         listing = Listing.objects.get(id=listing_id)
 
