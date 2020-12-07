@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.files import File
 
 from .models import Bid, Category, Contact, Comment, Listing, User
 
@@ -340,8 +341,15 @@ def add_listing(request):
             if category:
                 category_id = category.id
 
-                # Creates new Listing instance.
-                new_listing = Listing(title=title, description=description, starting_price=starting_price, user_id=user_id, category_id=category_id)
+                if request.FILES["image"]:
+                    photo = request.FILES["image"]
+                    # Creates new Listing instance.
+                    new_listing = Listing(title=title, description=description, starting_price=starting_price, photo=photo, user_id=user_id, category_id=category_id)
+
+                else:
+                    # Creates new Listing instance.
+                    new_listing = Listing(title=title, description=description, starting_price=starting_price, user_id=user_id, category_id=category_id)
+                
                 new_listing.save()
 
                 return redirect('browse_listings')

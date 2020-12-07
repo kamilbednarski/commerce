@@ -43,9 +43,10 @@ class Listing(models.Model):
     Contains title, description, date added,
     starting price and status field(active/not active).
     '''
-    title = models.CharField(max_length=40)
+    title = models.CharField(max_length=30)
     description = models.CharField(max_length=500)
     starting_price = models.FloatField()
+    photo = models.ImageField(upload_to='listing_images', default='default.jpg')
     # Connection with User
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)

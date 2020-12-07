@@ -18,7 +18,7 @@
     <div class="login-panel animated slideInDown border mt-5">
         <h2>Add new listing</h2>
         <hr>
-        <form action="{% url 'add_listing' %}" method="POST">
+        <form action="{% url 'add_listing' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <!-- Title -->
             <div class="pb-3">
@@ -33,6 +33,7 @@
                     <label class="form-input-label" for="startingPriceInput">STARTING PRICE</label>
                     <input class="form-control form-input-custom" type="text" id="startingPriceInput" name="price" placeholder="Starting price" required>
                 </div>
+
                 <!-- Category -->
                 <div class="col-8">
                     <div class="form-group">
@@ -46,6 +47,12 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Photo input -->
+            <div class="custom-file pb-3">
+                <input type="file" class="custom-file-input" id="customFile" accept="image/*" name="image">
+                <label style="color: lightgray !important; font-weight: 300;" class="custom-file-label sharp-border" for="customFile">Choose file</label>
+              </div>
 
             <!-- Description -->
             <div class="row pb-3">

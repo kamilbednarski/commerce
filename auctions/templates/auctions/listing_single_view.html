@@ -15,7 +15,8 @@
 
 {% block body %}
     <div class="listings-panel animated slideInDown border mt-5">
-        {{listing.title}}
+        {{ listing.title }}
+        <img src="{{ listing.photo.url }}" width="100px">
 
     </div>
 

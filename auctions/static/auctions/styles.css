@@ -108,7 +108,7 @@ body {
 }
 
 .sharp-border {
-    border-radius: 0;
+    border-radius: 0 !important;
 }
 
 ::placeholder {
@@ -119,4 +119,21 @@ body {
 .message-container {
     z-index: 1;
     background-color: #81b29a;
+}
+
+.description-show-hide {
+    height: 0px;
+    visibility: hidden;
+}
+
+.description-hover:hover .description-show-hide{
+    visibility: visible;
+    height: auto;
+}
+
+.container-image {
+    height: 200px;
+    width: 200px;
+    float: none;
+    overflow: hidden;
 }
