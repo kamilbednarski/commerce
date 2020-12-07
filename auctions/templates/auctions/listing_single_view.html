@@ -15,8 +15,198 @@
 
 {% block body %}
     <div class="listings-panel animated slideInDown border mt-5">
-        {{ listing.title }}
-        <img src="{{ listing.photo.url }}" width="100px">
+        <div class="row">
+            <!-- Image -->
+            <div class="col-sm">
+                <div class="border" style="max-width: 100%;">
+                    <img class="z-depth-1-half" style="max-width: 100%; max-height: 100%; display: block;" src="{{ listing.photo.url }}">
+                </div>
+            </div>
+
+            <!-- Title, navigation -->
+            <div class="col-sm">
+                <div class="row">
+                    <div class="col">
+                        <h3>{{listing.title}}</h3>
+                    </div>
+                </div>
+                <hr>
+
+                <!-- Price row -->
+                <div class="row">
+                    <!-- Starting price -->
+                    <div class="col">
+                        <label class="form-input-label" for="startingPriceOutput">CURRENT PRICE</label>
+                        <div id="startingPriceOutput">
+                            <h3>${{ listing.starting_price }}0</h3>
+                        </div>
+                    </div>
+
+                    <!-- Current price -->
+                    <div class="col">
+                        <label class="form-input-label" for="startingPriceOutput">STARTING PRICE</label>
+                        <div id="startingPriceOutput">
+                            <h3>${{ listing.starting_price }}0</h3>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                {% if listing.user_id == logged_user_id %}
+
+                    <h4 style="color: #419281;">You can't bid on your own listing.</h4>
+
+                {% elif not logged_user_id %}
+
+                    <h4 style="color: #419281;">Log in to place bid.</h4>
+
+                {% else %}
+
+                    <!-- Bid row POST-->
+                    <div class="row">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="col">
+                                <label class="form-input-label" for="bidInput">PLACE YOUR BID</label>
+                                <input autofocus class="form-control form-input-custom" type="text" id="bidInput" name="bid" placeholder="New bid">
+                            </div>
+                            <div class="col-4 text-right">
+                                <div class="pt-4">
+                                    <input class="btn btn-info button-custom" type="submit" value="SUBMIT">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                {% endif %}
+
+            </div>
+        </div>
+        <hr>
+        
+        <!-- Description row -->
+        <div class="row pb-5">
+            <div class="col">
+                <label class="form-input-label" for="startingPriceOutput">PRODUCT DESCRIPTION</label>
+                <div id="startingPriceOutput">
+                    <h4>{{ listing.description }}</h4>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <!-- Comment section row -->
+        <div id="commentSection">
+            <h4>Comment section</h4>
+
+            {% if listing.user_id == logged_user_id %}
+
+                <h4 style="color: #419281;">You can't comment your own listing.</h4>
+
+            {% elif not logged_user_id %}
+
+                <h4 style="color: #419281;">Log in to add comment.</h4>
+
+            {% else %}
+
+                <!-- Add new comment POST -->
+                <div class="row">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="col pb-4">
+                            <label class="form-input-label" for="commentInput">ADD NEW COMMENT</label>
+                            <input autofocus class="form-control form-input-custom" type="text" id="commentInput" name="comment" placeholder="Add your public comment here">
+                        </div>
+                        <div class="col-2 text-right">
+                            <div class="pt-4">
+                                <input class="btn btn-info button-custom" type="submit" value="SEND">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            {% endif %}
+
+            <hr>
+
+            <!-- Comment -->
+
+            {% if comments %}
+
+                {% for comment in comments %}
+                <div class="row">
+                    <!-- Comment date added -->
+                    <div class="col">
+                        <small>ADDED {{ comment.date_added }}</small>
+                    </div>
+                    <!-- Comment author -->
+                    <div class="col">
+                        <small>
+
+                        {% for author in authors %}
+
+                            {% if author.id == comment.author_id %}
+
+                                ADDED BY {{ author.username }}
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Comment content -->
+                <div class="row">
+                    <div class="col">
+                        {{ comment.content }}
+                    </div>
+                </div>
+
+                {% if comment.reply %}
+
+                    <!-- Reply from author -->
+                    <div class="row">
+                        <div class="col pl-5">
+                            <i style="color: #419281" class="fas fa-long-arrow-alt-right"></i><small><strong style="color: #419281;">SELLER REPLY</strong></small> {{ comment.reply }}
+                        </div>
+                    </div>
+
+                {% else %}
+
+                    <!-- Add reply as an author POST -->
+                    {% if listing.user_id == logged_user_id %}
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-input-label" for="replyInput">REPLY</label>
+                                <input autofocus class="form-control form-input-custom" type="text" id="replyInput" name="comment" placeholder="Add reply here">
+                            </div>
+                            <div class="col-2 text-right">
+                                <div class="pt-4">
+                                    <input class="btn btn-info button-custom" type="submit" value="REPLY">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% endif %}
+
+                {% endif %}
+
+                <hr>
+
+                {% endfor %}
+
+            {% else %}
+
+                There are no comments for this listing yet.
+
+            {% endif %}
+        
+        </div>
 
     </div>
 

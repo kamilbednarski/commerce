@@ -132,8 +132,10 @@ body {
 }
 
 .container-image {
-    height: 200px;
-    width: 200px;
+    height: 22vw;
+    max-height: 200px;
+    width: 22vw;
+    max-width: 200px;
     float: none;
     overflow: hidden;
 }

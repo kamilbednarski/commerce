@@ -67,6 +67,7 @@ class Comment(models.Model):
     '''
     date_added = models.DateTimeField(default=timezone.now)
     content = models.CharField(max_length=140)
+    reply = models.CharField(max_length=140, blank=True, null=True)
     # Connection with Listing
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
     # Connection with User

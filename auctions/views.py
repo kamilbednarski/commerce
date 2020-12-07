@@ -42,6 +42,31 @@ def browse_listings(request):
     })
 
 
+def single_listing_view(request, id):
+    '''
+    Renders page for single listing.
+    '''
+    logged_user = request.user
+
+    listing = Listing.objects.get(id=id)
+    comments = Comment.objects.filter(listing_id=id)
+
+    user_ids = []
+    for comment in comments:
+        user_ids.append(comment.author_id)
+
+    user_ids = set(user_ids)
+
+    authors = User.objects.filter(id__in=user_ids)
+
+    return render(request, "auctions/listing_single_view.html", {
+        "logged_user_id": logged_user.id,
+        "listing": listing,
+        "comments": comments,
+        "authors": authors
+    })
+
+
 def browse_listings_category(request):
     '''
     Renders page with all active listings matching selected category.
@@ -120,15 +145,6 @@ def login_view(request):
     else:
         return render(request, "auctions/login.html")
 
-
-def single_listing_view(request, id):
-    '''
-    Renders page for single listing.
-    '''
-    listing = Listing.objects.get(id=id)
-    return render(request, "auctions/listing_single_view.html", {
-        "listing": listing
-    })
 
 
 '''
