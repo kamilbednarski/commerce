@@ -46,6 +46,7 @@ class Listing(models.Model):
     title = models.CharField(max_length=30)
     description = models.CharField(max_length=500)
     starting_price = models.FloatField()
+    current_price = models.FloatField(blank=True, null=True)
     photo = models.ImageField(upload_to='listing_images', default='default.jpg')
     # Connection with User
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -89,4 +90,7 @@ class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.value
+        listing = str(self.listing)
+        value = str(self.value)
+        self_description = listing + " bid value: " + value
+        return self_description

@@ -34,15 +34,15 @@
 
                 <!-- Price row -->
                 <div class="row">
-                    <!-- Starting price -->
+                    <!-- Current price -->
                     <div class="col">
                         <label class="form-input-label" for="startingPriceOutput">CURRENT PRICE</label>
                         <div id="startingPriceOutput">
-                            <h3>${{ listing.starting_price }}0</h3>
+                            <h3>${{ listing.current_price }}0</h3>
                         </div>
                     </div>
 
-                    <!-- Current price -->
+                    <!-- Starting price -->
                     <div class="col">
                         <label class="form-input-label" for="startingPriceOutput">STARTING PRICE</label>
                         <div id="startingPriceOutput">
@@ -63,12 +63,14 @@
                 {% else %}
 
                     <!-- Bid row POST-->
-                    <form action="" method="POST">
+                    <form action="{% url 'add_bid' %}" method="POST">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col">
                                 <label class="form-input-label" for="bidInput">PLACE YOUR BID</label>
-                                <input autofocus class="form-control form-input-custom" type="text" id="bidInput" name="bid" placeholder="New bid">
+                                <input autofocus class="form-control form-input-custom" type="text" id="bidInput" name="bid_value" placeholder="New bid">
+                                <input hidden name="listing_id" value="{{ listing.id }}">
+                                <input hidden name="user_id" value="{{ logged_user_id }}">
                             </div>
                             <div class="col-4 text-right">
                                 <div class="pt-4">

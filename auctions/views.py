@@ -345,6 +345,7 @@ def add_listing(request):
             title = request.POST["title"]
             description = request.POST["description"]
             starting_price = float(request.POST["price"])
+            current_price = starting_price
             user_id = logged_user.id
 
             # Gets category id from Category object.
@@ -490,6 +491,49 @@ def add_comment(request):
         else:
             listing_id = request.POST['listing_id']
             messages.info(request, 'You cannot post empty comment.')
+            return redirect('single_listing_view', listing_id)
+
+    else:
+        return redirect('browse_listings')
+
+
+@login_required
+def add_bid(request):
+    '''
+    Allows logged user to add bid to any listing
+    that does not belong to that user.
+    '''
+    if request.method == 'POST':
+        if request.POST['bid_value'] and request.POST['listing_id']:
+            # Saves data from POST method.
+            value = float(request.POST['bid_value'])
+            listing_id = request.POST['listing_id']
+
+            # Gets logged user.
+            logged_user = request.user
+
+            # Gets Listing object with matching id.
+            listing = Listing.objects.get(id=listing_id)
+            current_price = listing.current_price
+            # Checks if new bid is higher than current price.
+            if value > current_price:
+                # Updates current price of listing.
+                listing.current_price = value
+                listing.save()
+                # Creates new Bid object.
+                bid = Bid(value = value, user = logged_user, listing = listing)
+                bid.save()
+
+                messages.info(request, 'Bid succesfully added.')
+                return redirect('single_listing_view', listing_id)
+
+            else:
+                messages.info(request, 'New bid has to be higher than current price.')
+                return redirect('single_listing_view', listing_id)
+
+        else:
+            listing_id = request.POST['listing_id']
+            messages.info(request, 'You cannot post empty bid.')
             return redirect('single_listing_view', listing_id)
 
     else:
