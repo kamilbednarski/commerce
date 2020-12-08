@@ -19,43 +19,63 @@
         <!-- Personal info -->
         <div><h2>{{ category | title }} category listings</h2></div>
         <hr>
+
         {% if listings %}
+
             {% for listing in listings %}
-            <div class="pb-3">
-                <div class="card" style="border-radius: 0; background-color: #E4E8EA;">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="card-title">{{ listing.title }}</h4>
-                            </div>
-                            <div class="col-2">
-                                <a href="{% url 'change_password' %}" role="button" class="btn btn-info button-custom btn-block">VIEW</a>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col">
-                                <label class="form-input-label" for="startingPriceOutput">STARTING PRICE</label>
-                                <div id="startingPriceOutput">
-                                    <h5>${{ listing.starting_price }}0</h5>
+
+                {% if not listing.winner and listing.active == 1 %}
+
+                    <a class="text-dark" style="text-decoration: none;" href="{% url 'single_listing_view' listing.id %}">
+                    <div class="pb-3">
+                        <div class="card description-hover" style="border-radius: 0; background-color: #E4E8EA;">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="container-image" style="background-image: url({{ listing.photo.url }}); background-size: cover; background-position: center; overflow: hidden;"></div>
+                                </div>    
+                                <div class="col">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h4 class="card-title">{{ listing.title }}</h4>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="description-show-hide">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div id="descriptionOutput">
+                                                        {{ listing.description }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="form-input-label" for="startingPriceOutput">CURRENT PRICE</label>
+                                                <div id="startingPriceOutput">
+                                                    <h5>${{ listing.current_price }}0</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <small>ADDED: {{ listing.date_added }}</small>
+                                            </div>
+                                        </div>
+                                    </div> 
                                 </div>
                             </div>
-                            <div class="col">
-                                <label class="form-input-label" for="categoryOutput">CATEGORY</label>
-                                <div id="categoryOutput">
-                                    <h5>{{ category }}</h5>
-                                </div>
-                            </div>
+
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <small>ADDED: {{ listing.date_added }}</small>
-                            </div>
-                        </div>
-                    </div>       
-                </div>
-            </div>
+                    </div>
+                    </a>
+                
+                {% endif %}
+
             {% endfor %}
+
         {% else %}
         Unfortunatelly, there's no listings in this category yet.
         {% endif %}

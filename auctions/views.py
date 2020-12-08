@@ -476,6 +476,39 @@ def listing_activate(request):
 
 
 @login_required
+def listing_end(request):
+    '''
+    Allows user to end his listing.
+    By using this method, user with highest bid
+    automatically becomes winner for that listing.
+    '''
+    if request.method == 'POST':
+        logged_user = request.user
+        user_id = logged_user.id
+
+        # Gets listing id from POST method.
+        # and searches for Listing object with that id.
+        listing_id = request.POST['listing_id']
+        listing = Listing.objects.get(id=listing_id)
+
+        # Gets bid with matching listing_id and value.
+        bid = Bid.objects.get(listing_id=listing.id, value=listing.current_price)
+       
+        # Listing winner gets user id from matching bid.
+        listing.winner = bid.user_id
+        listing.active = 0
+        listing.save()
+
+        winner = User.objects.get(id=listing.winner)
+        
+        messages.info(request, f"Auction succesfully closed. Winner of this auction is {winner.username}.")
+        return redirect('listings_view')
+
+    else:
+        return redirect('listings_view')
+
+
+@login_required
 def add_reply(request):
     '''
     Allows logged user who's also listing's author

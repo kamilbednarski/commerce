@@ -73,6 +73,12 @@ class Listing(models.Model):
         username = user.username
         return username
 
+    def get_winner_username(self):
+        if self.winner:
+            user = User.objects.get(id=self.winner)
+            username = user.username
+            return username
+
     def __str__(self):
         return "Listing with id: " + str(self.get_id()) + " assigned author: " + str(self.get_username())
 
@@ -126,3 +132,21 @@ class Bid(models.Model):
         value = str(self.value)
         self_description = listing + " bid value: " + value
         return self_description
+
+
+class Wishlist(models.Model):
+    '''
+    Model for user's wishlist positions.
+    Contains listing id and user id.
+    '''
+    # Connection with User
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # Connection with Listing
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+
+    def get_username(self):
+        user = User.objects.get(id=self.user_id)
+        return user.username
+
+    def __str__(self):
+        return "Position in wishlist of user: " + str(self.get_username())

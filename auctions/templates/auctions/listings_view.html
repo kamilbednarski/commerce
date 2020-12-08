@@ -28,34 +28,47 @@
                         <div class="col">
                             <h4 class="card-title">{{ listing.title }}</h4>
                         </div>
-                        <!-- Stop auction button -->
-                        <div class="col-1">
-                            <form action="{% url 'listing_delete' %}" method="POST">
-                                {% csrf_token %}
-                                <input name="listing_id" value={{ listing.id }} hidden>
-                                <button type="submit" class="btn btn-info button-custom btn-block"><i class="fas fa-stop"></i></button>
-                            </form>
-                        </div>
-                        <!-- Suspend/Activate button -->
-                        <div class="col-1">
-                            {% if listing.active == 1 %}
-                            <form action="{% url 'listing_deactivate' %}" method="POST">
-                                {% csrf_token %}
-                                <input name="listing_id" value="{{ listing.id }}" hidden>
-                                <button type="submit" class="btn btn-info button-custom btn-block"><i class="fas fa-pause"></i></button>
-                            </form>
-                            {% else %}
-                            <form action="{% url 'listing_activate' %}" method="POST">
-                                {% csrf_token %}
-                                <input name="listing_id" value="{{ listing.id }}" hidden>
-                                <button type="submit" class="btn btn-info button-custom btn-block"><i class="fas fa-play"></i></button>
-                            </form>
-                            {% endif %}
-                        </div>
-                        <!-- Edit button -->
-                        <div class="col-1">
-                            <a href="{% url 'change_password' %}" role="button" class="btn btn-info button-custom btn-block"><i class="fas fa-edit"></i></a>
-                        </div>
+                        
+                        {% if not listing.winner %}
+
+                            <!-- Stop auction button -->
+                            <div class="col-1">
+                                <form action="{% url 'listing_end' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input name="listing_id" value="{{ listing.id }}" hidden>
+                                    <button type="submit" class="btn btn-info button-custom btn-block"><i class="fas fa-stop"></i></button>
+                                </form>
+                            </div>
+                            <!-- Suspend/Activate button -->
+                            <div class="col-1">
+                                {% if listing.active == 1 %}
+                                <form action="{% url 'listing_deactivate' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input name="listing_id" value="{{ listing.id }}" hidden>
+                                    <button type="submit" class="btn btn-info button-custom btn-block"><i class="fas fa-pause"></i></button>
+                                </form>
+                                {% else %}
+                                <form action="{% url 'listing_activate' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input name="listing_id" value="{{ listing.id }}" hidden>
+                                    <button type="submit" class="btn btn-info button-custom btn-block"><i class="fas fa-play"></i></button>
+                                </form>
+                                {% endif %}
+                            </div>
+                            <!-- Edit button -->
+                            <div class="col-1">
+                                <a href="{% url 'change_password' %}" role="button" class="btn btn-info button-custom btn-block"><i class="fas fa-edit"></i></a>
+                            </div>
+
+                        {% else %}
+
+                            <!-- Information that aution already has a winner -->
+                            <div class="col-4">
+                                <div class="pt-2" style="color: #419281;" id="winnerOutput"><strong>ITEM SOLD - BUYER: {{ listing.get_winner_username }}</strong></div>
+                            </div>
+
+                        {% endif %}
+
                         <!-- Delete button -->
                         <div class="col-1">
                             <form action="{% url 'listing_delete' %}" method="POST">

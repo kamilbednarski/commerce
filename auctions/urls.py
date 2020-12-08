@@ -16,6 +16,7 @@ urlpatterns = [
     path("profile/view/mylistings/delete", views.listing_delete, name="listing_delete"),
     path("profile/view/mylistings/deactivate", views.listing_deactivate, name="listing_deactivate"),
     path("profile/view/mylistings/activate", views.listing_activate, name="listing_activate"),
+    path("profile/view/mylistings/end", views.listing_end, name="listing_end"),
     path("add", views.add_listing, name="add_listing"),
     path("category", views.categories_view, name="categories_view"),
     path("category/browse", views.browse_listings_category, name="browse_listings_category"),
