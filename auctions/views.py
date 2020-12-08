@@ -416,8 +416,8 @@ def listing_delete(request):
         logged_user = request.user
         user_id = logged_user.id
 
-        # Gets listing id from POST method
-        # and searches for Listing object with that id
+        # Gets listing id from POST method.
+        # and searches for Listing object with that id.
         listing_id = request.POST['listing_id']
         listing = Listing.objects.get(id=listing_id)
 
@@ -427,3 +427,27 @@ def listing_delete(request):
 
     else:
         return redirect('listings_view')
+
+
+@login_required
+def add_reply(request):
+    '''
+    Allows logged user who's also listing's author
+    to add reply to public comment.
+    '''
+    if request.method == 'POST':
+        if request.POST['comment_id'] and request.POST['reply_content'] and request.POST['listing_id']:
+            # Saves data from POST method.
+            comment_id = request.POST['comment_id']
+            reply_content = request.POST['reply_content']
+            listing_id = request.POST['listing_id']
+
+            # Gets comment object with matching id.
+            comment = Comment.objects.get(id=comment_id)
+            comment.reply = reply_content
+            comment.save()
+            
+            # After adding reply field to comment object, redirects to listing view.
+            return redirect('single_listing_view', listing_id)
+    else:
+        return redirect('browse_listings')
