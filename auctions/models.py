@@ -134,7 +134,7 @@ class Bid(models.Model):
         return self_description
 
 
-class Wishlist(models.Model):
+class Watchlist(models.Model):
     '''
     Model for user's wishlist positions.
     Contains listing id and user id.
@@ -149,4 +149,4 @@ class Wishlist(models.Model):
         return user.username
 
     def __str__(self):
-        return "Position in wishlist of user: " + str(self.get_username())
+        return "Position in watchlist of user: " + str(self.get_username())

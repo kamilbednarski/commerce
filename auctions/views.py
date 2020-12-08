@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.files import File
 
-from .models import Bid, Category, Contact, Comment, Listing, User
+from .models import Bid, Category, Contact, Comment, Listing, User, Watchlist
 
 
 def index(request):
@@ -47,6 +47,11 @@ def single_listing_view(request, id):
     Renders page for single listing.
     '''
     logged_user = request.user
+    
+    try:
+        watchlist = Watchlist.objects.get(user_id=logged_user.id, listing_id=id)
+    except Watchlist.DoesNotExist:
+        watchlist = None
 
     listing = Listing.objects.get(id=id)
     comments = Comment.objects.filter(listing_id=id)
@@ -63,7 +68,8 @@ def single_listing_view(request, id):
         "logged_user_id": logged_user.id,
         "listing": listing,
         "comments": comments,
-        "authors": authors
+        "authors": authors,
+        "watchlist": watchlist
     })
 
 
@@ -616,3 +622,56 @@ def add_bid(request):
 
     else:
         return redirect('browse_listings')
+
+
+@login_required
+def add_to_watchlist(request):
+    '''
+    Allows logged user to add listing to watchlist.
+    '''
+    if request.method == 'POST':
+        if request.POST['listing_id']:
+            logged_user = request.user
+            listing_id = request.POST['listing_id']
+            listing = Listing.objects.get(id = listing_id)
+
+            # Creates watchlist object with connection to provided user and listing.
+            new_watchlist = Watchlist(user = logged_user, listing = listing)
+            new_watchlist.save()
+
+            messages.info(request, 'Item successfully added to watchlist.')
+            return redirect('single_listing_view', listing_id)
+
+        else:
+            messages.info(request, 'Error: Listing id must be provided.')
+            return redirect('browse listings') 
+
+    else:
+        return redirect('browse listings')
+
+
+@login_required
+def remove_from_watchlist(request):
+    '''
+    Allows logged user to remove listing from watchlist.
+    '''
+    if request.method == 'POST':
+        if request.POST['listing_id']:
+            logged_user = request.user
+            listing_id = request.POST['listing_id']
+            listing = Listing.objects.get(id = listing_id)
+
+            # Gets watchlist object with matching user id and listing id.
+            watchlist = Watchlist.objects.get(user_id = logged_user.id, listing_id = listing_id)
+            # Deletes selectec watchlist object.
+            watchlist.delete()
+
+            messages.info(request, 'Item successfully removed from watchlist.')
+            return redirect('single_listing_view', listing_id)
+
+        else:
+            messages.info(request, 'Error: Listing id must be provided.')
+            return redirect('browse listings') 
+
+    else:
+        return redirect('browse listings')

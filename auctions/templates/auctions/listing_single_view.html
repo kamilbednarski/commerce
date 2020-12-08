@@ -33,7 +33,7 @@
                 </div>
                 <hr>
 
-                <!-- Price row -->
+                <!-- Price and watchlist button row -->
                 <div class="row">
                     <!-- Current price -->
                     <div class="col">
@@ -50,8 +50,42 @@
                             <h3>${{ listing.starting_price }}0</h3>
                         </div>
                     </div>
+
+                    {% if listing.user_id != logged_user_id %}
+
+                        {% if watchlist == None %}
+
+                            <!-- Watchlist add button -->
+                            <div class="col-2">
+                                <form action="{% url 'add_to_watchlist' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="pt-4">
+                                        <input name="listing_id" value="{{ listing.id }}" hidden>
+                                        <button type="submit" class="btn btn-info button-custom btn-block"><i class="far fa-star"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        {% else %}
+
+                            <!-- Watchlist remove button -->
+                            <div class="col-2">
+                                <form action="{% url 'remove_from_watchlist' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="pt-4">
+                                        <input name="listing_id" value="{{ listing.id }}" hidden>
+                                        <button type="submit" class="btn btn-info button-custom btn-block"><i class="fas fa-star"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        {% endif %}
+
+                    {% endif %}
+                    
                 </div>
                 <hr>
+                
 
                 {% if listing.user_id == logged_user_id %}
 
