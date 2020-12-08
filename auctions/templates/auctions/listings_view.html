@@ -25,17 +25,43 @@
             <div class="card" style="border-radius: 0; background-color: #E4E8EA;">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-8">
+                        <div class="col">
                             <h4 class="card-title">{{ listing.title }}</h4>
                         </div>
-                        <div class="col-2">
-                            <a href="{% url 'change_password' %}" role="button" class="btn btn-info button-custom btn-block">EDIT</a>
-                        </div>
-                        <div class="col-2">
+                        <!-- Stop auction button -->
+                        <div class="col-1">
                             <form action="{% url 'listing_delete' %}" method="POST">
                                 {% csrf_token %}
                                 <input name="listing_id" value={{ listing.id }} hidden>
-                                <button type="submit" class="btn btn-info button-custom btn-block">DELETE</button>
+                                <button type="submit" class="btn btn-info button-custom btn-block"><i class="fas fa-stop"></i></button>
+                            </form>
+                        </div>
+                        <!-- Suspend/Activate button -->
+                        <div class="col-1">
+                            {% if listing.active == 1 %}
+                            <form action="{% url 'listing_deactivate' %}" method="POST">
+                                {% csrf_token %}
+                                <input name="listing_id" value="{{ listing.id }}" hidden>
+                                <button type="submit" class="btn btn-info button-custom btn-block"><i class="fas fa-pause"></i></button>
+                            </form>
+                            {% else %}
+                            <form action="{% url 'listing_activate' %}" method="POST">
+                                {% csrf_token %}
+                                <input name="listing_id" value="{{ listing.id }}" hidden>
+                                <button type="submit" class="btn btn-info button-custom btn-block"><i class="fas fa-play"></i></button>
+                            </form>
+                            {% endif %}
+                        </div>
+                        <!-- Edit button -->
+                        <div class="col-1">
+                            <a href="{% url 'change_password' %}" role="button" class="btn btn-info button-custom btn-block"><i class="fas fa-edit"></i></a>
+                        </div>
+                        <!-- Delete button -->
+                        <div class="col-1">
+                            <form action="{% url 'listing_delete' %}" method="POST">
+                                {% csrf_token %}
+                                <input name="listing_id" value={{ listing.id }} hidden>
+                                <button type="submit" class="btn btn-info button-custom btn-block"><i class="fas fa-times"></i></button>
                             </form>
                         </div>
                     </div>
@@ -48,6 +74,12 @@
                             </div>
                         </div>
                         <div class="col">
+                            <label class="form-input-label" for="currentPriceOutput">CURRENT PRICE</label>
+                            <div id="currentPriceOutput">
+                                <h5>${{ listing.current_price }}0</h5>
+                            </div>
+                        </div>
+                        <div class="col">
                             <label class="form-input-label" for="categoryOutput">CATEGORY</label>
                             <div id="categoryOutput">
                                 <h5>
@@ -57,6 +89,12 @@
                                     {% endif %}
                                 {% endfor %}
                                 </h5>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label class="form-input-label" for="statusOutput">STATUS</label>
+                            <div id="statusOutput">
+                                <h5>{{ listing.get_status|title }}</h5>
                             </div>
                         </div>
                     </div>

@@ -429,6 +429,51 @@ def listing_delete(request):
     else:
         return redirect('listings_view')
 
+@login_required
+def listing_deactivate(request):
+    '''
+    Allows user to deactivate listing.
+    '''
+    if request.method == 'POST':
+        logged_user = request.user
+        user_id = logged_user.id
+
+        # Gets listing id from POST method.
+        # and searches for Listing object with that id.
+        listing_id = request.POST['listing_id']
+        listing = Listing.objects.get(id=listing_id)
+
+        if listing.user_id == user_id:
+            listing.active = 0
+            listing.save()
+        return redirect('listings_view')
+
+    else:
+        return redirect('listings_view')
+
+
+@login_required
+def listing_activate(request):
+    '''
+    Allows user to activate listing.
+    '''
+    if request.method == 'POST':
+        logged_user = request.user
+        user_id = logged_user.id
+
+        # Gets listing id from POST method.
+        # and searches for Listing object with that id.
+        listing_id = request.POST['listing_id']
+        listing = Listing.objects.get(id=listing_id)
+
+        if listing.user_id == user_id:
+            listing.active = 1
+            listing.save()
+        return redirect('listings_view')
+
+    else:
+        return redirect('listings_view')
+
 
 @login_required
 def add_reply(request):

@@ -54,6 +54,12 @@ class Listing(models.Model):
     date_added = models.DateTimeField(default=timezone.now)
     active = models.BooleanField(default=True)
 
+    def get_status(self):
+        if self.active == 1:
+            return "active"
+        else:
+            return "not active"
+            
     def __str__(self):
         return self.title
 
