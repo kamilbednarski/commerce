@@ -20,10 +20,14 @@ class Contact(models.Model):
     country = models.CharField(max_length=30, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    info = f'Contact card id: {id}'
-    
+    def get_username(self):
+        user = User.objects.get(id=self.user_id)
+        username = user.username
+        return username
+
     def __str__(self):
-        return self.info
+        return "Contact card for: " + str(self.get_username())
+
 
 class Category(models.Model):
     '''
@@ -53,15 +57,24 @@ class Listing(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     date_added = models.DateTimeField(default=timezone.now)
     active = models.BooleanField(default=True)
+    winner = models.CharField(max_length=30, blank=True, null=True)
 
     def get_status(self):
         if self.active == 1:
             return "active"
         else:
             return "not active"
-            
+
+    def get_id(self):
+        return self.id
+
+    def get_username(self):
+        user = User.objects.get(id=self.user_id)
+        username = user.username
+        return username
+
     def __str__(self):
-        return self.title
+        return "Listing with id: " + str(self.get_id()) + " assigned author: " + str(self.get_username())
 
 
 class Comment(models.Model):
