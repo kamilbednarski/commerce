@@ -93,8 +93,21 @@ class Comment(models.Model):
     # Connection with User
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def get_id(self):
+        return self.id
+
+    def get_listing_id(self):
+        return self.listing_id
+
+    def get_listing_author_username(self):
+        listing = Listing.objects.get(id=self.listing_id)
+        listing_author_id = listing.user_id
+        author = User.objects.get(id=listing_author_id)
+        username = author.username
+        return username
+
     def __str__(self):
-        return self.content
+        return "Comment for listing of id: " + str(self.get_listing_id()) + " of author: " + str(self.get_listing_author_username())
 
 
 class Bid(models.Model):
