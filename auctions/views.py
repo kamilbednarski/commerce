@@ -448,7 +448,14 @@ def add_reply(request):
             comment.save()
             
             # After adding reply field to comment object, redirects to listing view.
+            messages.info(request, 'Reply added successfully.')
             return redirect('single_listing_view', listing_id)
+
+        else:
+            listing_id = request.POST['listing_id']
+            messages.info(request, 'You cannot post empty reply.')
+            return redirect('single_listing_view', listing_id)
+
     else:
         return redirect('browse_listings')
 
@@ -477,6 +484,13 @@ def add_comment(request):
             comment.save()
 
             # After adding reply field to comment object, redirects to listing view.
+            messages.info(request, 'Comment added successfully.')
             return redirect('single_listing_view', listing_id)
+
+        else:
+            listing_id = request.POST['listing_id']
+            messages.info(request, 'You cannot post empty comment.')
+            return redirect('single_listing_view', listing_id)
+
     else:
         return redirect('browse_listings')
