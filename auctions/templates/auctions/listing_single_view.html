@@ -110,12 +110,14 @@
             {% else %}
 
                 <!-- Add new comment POST -->
-                <form action="" method="POST">
+                <form action="{% url 'add_comment' %}" method="POST">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-10 pb-4">
                             <label class="form-input-label" for="commentInput">ADD NEW COMMENT</label>
-                            <input autofocus class="form-control form-input-custom" type="text" id="commentInput" name="comment" placeholder="Add your public comment here">
+                            <input autofocus class="form-control form-input-custom" type="text" id="commentInput" name="comment_content" placeholder="Add your public comment here">
+                            <input hidden name="listing_id" value="{{ listing.id }}">
+                            <input hidden name="comment_author" value="{{ logged_user_id }}">
                         </div>
                         <div class="col-2 text-right">
                             <div class="pt-4">

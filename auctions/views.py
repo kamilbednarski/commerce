@@ -451,3 +451,32 @@ def add_reply(request):
             return redirect('single_listing_view', listing_id)
     else:
         return redirect('browse_listings')
+
+
+@login_required
+def add_comment(request):
+    '''
+    Allows logged user to add public comment
+    to any listing that does not belong to that user.
+    '''
+    if request.method == 'POST':
+        if request.POST['listing_id'] and request.POST['comment_content'] and request.POST['comment_author']:
+            # Saves data from POST method.
+            listing_id = request.POST['listing_id']
+            # Gets Listing object with matching id.
+            listing = Listing.objects.get(id=listing_id)
+            
+            comment_author_id = request.POST['comment_author']
+            # Gets User object with matching id.
+            comment_author = User.objects.get(id=comment_author_id)
+
+            comment_content = request.POST['comment_content']
+
+            # Creates new Comment object.
+            comment = Comment(content = comment_content, listing = listing, author = comment_author)
+            comment.save()
+
+            # After adding reply field to comment object, redirects to listing view.
+            return redirect('single_listing_view', listing_id)
+    else:
+        return redirect('browse_listings')
