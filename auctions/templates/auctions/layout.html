@@ -45,6 +45,9 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item px-3">
+                            <a class="nav-link animated fadeIn slower" href="{% url 'watchlist_view' %}">WATCHLIST</a>
+                        </li>
+                        <li class="nav-item px-3">
                             <a class="nav-link animated fadeIn slower" href="{% url 'add_listing' %}">ADD</a>
                         </li>
                         <li class="nav-item px-3">
