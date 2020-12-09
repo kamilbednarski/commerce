@@ -21,14 +21,13 @@ urlpatterns = [
 
     path("watchlist/add", views.add_to_watchlist, name="add_to_watchlist"),
     path("watchlist/remove", views.remove_from_watchlist, name="remove_from_watchlist"),
+    path("watchlist/browse", views.watchlist_view, name="watchlist_view"),
 
     path("add", views.add_listing, name="add_listing"),
 
     path("category", views.categories_view, name="categories_view"),
     path("category/browse", views.browse_listings_category, name="browse_listings_category"),
 
-    path("browse", views.browse_listings, name="browse_listings"),
-    
     path("comment/reply", views.add_reply, name="add_reply"),
     path("comment/add", views.add_comment, name="add_comment"),
     path("bid/add", views.add_bid, name="add_bid")

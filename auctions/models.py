@@ -80,7 +80,7 @@ class Listing(models.Model):
             return username
 
     def __str__(self):
-        return "Listing with id: " + str(self.get_id()) + " assigned author: " + str(self.get_username())
+        return "Listing with id: " + str(self.get_id()) + " assigned author: " + str(self.get_username()) + " title: " + self.title
 
 
 class Comment(models.Model):

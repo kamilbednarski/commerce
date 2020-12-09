@@ -12,9 +12,20 @@ from .models import Bid, Category, Contact, Comment, Listing, User, Watchlist
 
 def index(request):
     '''
-    Renders index page.
+    Renders page with all active listings.
     '''
-    return render(request, "auctions/index.html")
+    # Gets all Listing objects.
+    listings = Listing.objects.all().order_by('-date_added')
+    # Gets all Category objects.
+    categories = Category.objects.all().order_by('name')
+    
+    header_title = "All listings"
+
+    return render(request, "auctions/browse_listings.html", {
+        "listings": listings,
+        "categories": categories,
+        "header_title": header_title
+    })
 
 
 def categories_view(request):
@@ -25,19 +36,6 @@ def categories_view(request):
     categories = Category.objects.all().order_by('name')
 
     return render(request, "auctions/categories.html", {
-        "categories": categories
-    })
-
-
-def browse_listings(request):
-    '''
-    Renders page with all active listings.
-    '''
-    listings = Listing.objects.all().order_by('-date_added')
-    categories = Category.objects.all().order_by('name')
-
-    return render(request, "auctions/browse_listings.html", {
-        "listings": listings,
         "categories": categories
     })
 
@@ -351,7 +349,7 @@ def add_listing(request):
             title = request.POST["title"]
             description = request.POST["description"]
             starting_price = float(request.POST["price"])
-            current_price = starting_price
+            current_price = float(request.POST["price"])
             user_id = logged_user.id
 
             # Gets category id from Category object.
@@ -367,7 +365,7 @@ def add_listing(request):
                 if request.FILES["image"]:
                     photo = request.FILES["image"]
                     # Creates new Listing instance.
-                    new_listing = Listing(title=title, description=description, starting_price=starting_price, photo=photo, user_id=user_id, category_id=category_id)
+                    new_listing = Listing(title=title, description=description, starting_price=starting_price, current_price=current_price, photo=photo, user_id=user_id, category_id=category_id)
 
                 else:
                     # Creates new Listing instance.
@@ -375,7 +373,7 @@ def add_listing(request):
                 
                 new_listing.save()
 
-                return redirect('browse_listings')
+                return redirect('index')
             
             else:
                 # If category not valid, redirect.
@@ -542,7 +540,7 @@ def add_reply(request):
             return redirect('single_listing_view', listing_id)
 
     else:
-        return redirect('browse_listings')
+        return redirect('index')
 
 
 @login_required
@@ -578,7 +576,7 @@ def add_comment(request):
             return redirect('single_listing_view', listing_id)
 
     else:
-        return redirect('browse_listings')
+        return redirect('index')
 
 
 @login_required
@@ -621,7 +619,7 @@ def add_bid(request):
             return redirect('single_listing_view', listing_id)
 
     else:
-        return redirect('browse_listings')
+        return redirect('index')
 
 
 @login_required
@@ -675,3 +673,26 @@ def remove_from_watchlist(request):
 
     else:
         return redirect('browse listings')
+
+
+@login_required
+def watchlist_view(request):
+    '''
+    Allows user to view listings added to watchlist.
+    '''
+    logged_user = request.user
+
+    watchlist = Listing.objects.filter(watchlist__user=logged_user).order_by('title') #relationship query
+
+    # Get watchlist
+    # Get listings with user_id matching logged user and that are on watchlist
+    # Render template with list of listings limited by those filters
+
+    categories = Category.objects.all().order_by('name')
+    header_title = "My watchlist"
+
+    return render(request, "auctions/browse_listings.html", {
+        "listings": watchlist,
+        "categories": categories,
+        "header_title": header_title
+    })
