@@ -24,7 +24,8 @@ def index(request):
     return render(request, "auctions/browse_listings.html", {
         "listings": listings,
         "categories": categories,
-        "header_title": header_title
+        "header_title": header_title,
+        "logged_user_id": "No winner"
     })
 
 
@@ -642,10 +643,10 @@ def add_to_watchlist(request):
 
         else:
             messages.info(request, 'Error: Listing id must be provided.')
-            return redirect('browse listings') 
+            return redirect('index') 
 
     else:
-        return redirect('browse listings')
+        return redirect('index')
 
 
 @login_required
@@ -669,19 +670,18 @@ def remove_from_watchlist(request):
 
         else:
             messages.info(request, 'Error: Listing id must be provided.')
-            return redirect('browse listings') 
+            return redirect('index') 
 
     else:
-        return redirect('browse listings')
+        return redirect('index')
 
 
 @login_required
 def watchlist_view(request):
     '''
-    Allows user to view listings added to watchlist.
+    Allows logged user to view listings added to watchlist.
     '''
     logged_user = request.user
-
     watchlist = Listing.objects.filter(watchlist__user=logged_user).order_by('title') #relationship query
 
     # Get watchlist
@@ -694,5 +694,6 @@ def watchlist_view(request):
     return render(request, "auctions/browse_listings.html", {
         "listings": watchlist,
         "categories": categories,
-        "header_title": header_title
+        "header_title": header_title,
+        "logged_user_id": str(logged_user.id)
     })
